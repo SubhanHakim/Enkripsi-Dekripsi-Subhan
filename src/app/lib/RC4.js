@@ -1,34 +1,28 @@
-const RC4 = (key,text) => {
-  const s = [];
-  let j = 0;
-
-  // Key Scheduling Algorithm (KSA)
-  for (let i = 0; i < 256; i++) {
+const RC4 = (key, text) => {
+  var s = [],
+    j = 0,
+    x,
+    res = "";
+  for (var i = 0; i < 256; i++) {
     s[i] = i;
   }
-
-  for (let i = 0; i < 256; i++) {
+  for (i = 0; i < 256; i++) {
     j = (j + s[i] + key.charCodeAt(i % key.length)) % 256;
-    [s[i], s[j]] = [s[j], s[i]]; // swap
+    x = s[i];
+    s[i] = s[j];
+    s[j] = x;
   }
-
-  let i = 0;
+  i = 0;
   j = 0;
-  const result = [];
-
-  // Pseudo-Random Generation Algorithm (PRGA)
-  for (let k = 0; k < text.length; k++) {
+  for (var y = 0; y < text.length; y++) {
     i = (i + 1) % 256;
     j = (j + s[i]) % 256;
-    [s[i], s[j]] = [s[j], s[i]]; // swap
-
-    const rnd = s[(s[i] + s[j]) % 256];
-    const encryptedChar = String.fromCharCode(text.charCodeAt(k) ^ rnd);
-
-    result.push(encryptedChar);
+    x = s[i];
+    s[i] = s[j];
+    s[j] = x;
+    res += String.fromCharCode(text.charCodeAt(y) ^ s[(s[i] + s[j]) % 256]);
   }
-
-  return result.join('');
+  return res;
 };
 
-export default RC4
+export default RC4;
