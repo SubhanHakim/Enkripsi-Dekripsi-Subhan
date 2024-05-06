@@ -62,7 +62,7 @@ const RsaEncryption = () => {
           </div>
         )}
       </div>
-      <div className="flex flex-col w-2/5">
+      <div className="flex justify-center items-center w-2/4">
         <div className="w-fit">
           {publicKey && (
             <div>
